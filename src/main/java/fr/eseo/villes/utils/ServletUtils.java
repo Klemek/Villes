@@ -265,7 +265,6 @@ public final class ServletUtils {
         json.put("requested", request.getRequestURI());
         json.put("method", request.getMethod());
         json.put("params", params);
-
         return json;
     }
 
