@@ -89,6 +89,7 @@ public final class TestUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         when(request.getParameterMap()).thenReturn(new HashMap<>());
         if (headers != null) {
             for (Map.Entry<String, String> header : headers.entrySet()) {

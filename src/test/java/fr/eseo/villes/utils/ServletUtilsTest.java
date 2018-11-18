@@ -3,18 +3,22 @@ package fr.eseo.villes.utils;
 import fr.eseo.villes.TestUtils;
 
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -114,21 +118,115 @@ public class ServletUtilsTest {
 
     @Test
     public void testHandleCrossOrigin() {
-        StringWriter writer = new StringWriter();
         HttpServletRequest request = TestUtils.createMockRequest("OPTIONS", "/api/test/test2", null, null, null);
-        HttpServletResponse response = TestUtils.createMockResponse(writer);
+        HttpServletResponse response = TestUtils.createMockResponse(new StringWriter());
 
         assertTrue(ServletUtils.handleCrossOrigin(request, response));
     }
 
     @Test
     public void testHandleCrossOrigin2() {
-        StringWriter writer = new StringWriter();
         HttpServletRequest request = TestUtils.createMockRequest("GET", "/api/test/test2", null, null, null);
-        HttpServletResponse response = TestUtils.createMockResponse(writer);
+        HttpServletResponse response = TestUtils.createMockResponse(new StringWriter());
 
         assertFalse(ServletUtils.handleCrossOrigin(request, response));
     }
+
+    @Test
+    public void testReadParameters() {
+        HashMap<String, String> inputParams = new HashMap<>();
+        inputParams.put("testkey", "testvalue");
+
+        HttpServletRequest request = TestUtils.createMockRequest("PUT", "/api/test/test2", inputParams, null, null);
+
+        Map<String, String> outputParams = ServletUtils.readParameters(request);
+        assertEquals(1, outputParams.size());
+        assertTrue(outputParams.containsKey("testkey"));
+        assertEquals("testvalue", outputParams.get("testkey"));
+    }
+
+    @Test
+    public void testSendOk() {
+        StringWriter writer = new StringWriter();
+        HttpServletResponse response = TestUtils.createMockResponse(writer);
+
+        ServletUtils.sendOk(response);
+
+        JSONObject res = TestUtils.getResponseAsJson(writer);
+        assertEquals(HttpServletResponse.SC_OK, res.getInt("code"));
+        JSONObject value = res.getJSONObject("value");
+        assertNotNull(value);
+        assertTrue(value.has("success"));
+        assertTrue(value.getBoolean("success"));
+    }
+
+    @Test
+    public void testSendError() {
+        StringWriter writer = new StringWriter();
+        HttpServletResponse response = TestUtils.createMockResponse(writer);
+
+        ServletUtils.sendError(response, HttpServletResponse.SC_BAD_REQUEST);
+
+        JSONObject res = TestUtils.getResponseAsJson(writer);
+        assertEquals(HttpServletResponse.SC_BAD_REQUEST, res.getInt("code"));
+        JSONObject value = res.getJSONObject("value");
+        assertNotNull(value);
+        assertTrue(value.has("error"));
+        assertNotEquals(0, value.getString("error").length());
+    }
+
+    @Test
+    public void testSendErrorMessage() {
+        StringWriter writer = new StringWriter();
+        HttpServletResponse response = TestUtils.createMockResponse(writer);
+
+        ServletUtils.sendError(response, HttpServletResponse.SC_BAD_REQUEST, "custom error");
+
+        JSONObject res = TestUtils.getResponseAsJson(writer);
+        assertEquals(HttpServletResponse.SC_BAD_REQUEST, res.getInt("code"));
+        JSONObject value = res.getJSONObject("value");
+        assertNotNull(value);
+        assertTrue(value.has("error"));
+        assertEquals("custom error", value.getString("error"));
+    }
+
+    @Test
+    public void testSendJsonResponse() {
+        StringWriter writer = new StringWriter();
+        HttpServletResponse response = TestUtils.createMockResponse(writer);
+
+        JSONObject send = new JSONObject();
+        send.put("testkey", "testvalue");
+
+        ServletUtils.sendJsonResponse(response, send);
+
+        JSONObject res = TestUtils.getResponseAsJson(writer);
+        assertEquals(HttpServletResponse.SC_OK, res.getInt("code"));
+        JSONObject value = res.getJSONObject("value");
+        assertNotNull(value);
+        assertTrue(value.has("testkey"));
+        assertEquals("testvalue", value.getString("testkey"));
+    }
+
+    @Test
+    public void testSendJsonArrayResponse() {
+        StringWriter writer = new StringWriter();
+        HttpServletResponse response = TestUtils.createMockResponse(writer);
+
+        JSONArray send = new JSONArray();
+        send.put(0);
+        send.put(1);
+
+        ServletUtils.sendJsonResponse(response, send);
+
+        JSONObject res = TestUtils.getResponseAsJson(writer);
+        assertEquals(HttpServletResponse.SC_OK, res.getInt("code"));
+        JSONArray value = res.getJSONArray("value");
+        assertNotNull(value);
+        assertEquals(0, value.getInt(0));
+        assertEquals(1, value.getInt(1));
+    }
+
 
     @BeforeClass
     public static void setUpClass() {
