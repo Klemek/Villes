@@ -37,6 +37,24 @@ public final class Utils {
         }
     }
 
+    /**
+     * Get a configuration string by its key.
+     *
+     * @param key the key in the config file
+     * @return the integer or 0 if not found
+     */
+    public static int getInt(String key) {
+        try {
+            String string = Utils.getString(key);
+            if (string == null)
+                return 0;
+            return Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            Logger.log(Level.SEVERE, "Not integer string at key {0}", key);
+            return 0;
+        }
+    }
+
     /*
      * Other
      */
