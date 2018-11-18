@@ -19,8 +19,6 @@ public final class Utils {
 
     private static final ResourceBundle RELEASE_BUNDLE = ResourceBundle.getBundle("release");
 
-    private static int wordCount = 0;
-
     private Utils() {
     }
 

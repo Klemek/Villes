@@ -181,10 +181,7 @@ public final class ServletUtils {
         boolean matchingWrongMethod = false;
         boolean matchingDone = false;
 
-        if (ServletUtils.uriOffset < 0) {
-            String path = ContextListener.getAppPath();
-            ServletUtils.uriOffset = (path.length() == 0 || path.equals("/")) ? 0 : path.split("/").length - 1;
-        }
+        ServletUtils.verifyUriOffset();
 
         ServletUtils.currentRequests.put(Thread.currentThread().getId(),
                 ServletUtils.requestToJson(request).toString());
@@ -211,6 +208,13 @@ public final class ServletUtils {
                 ServletUtils.sendError(response, HttpServletResponse.SC_NOT_FOUND,
                         "Invalid api url");
             }
+        }
+    }
+
+    private static void verifyUriOffset() {
+        if (ServletUtils.uriOffset < 0) {
+            String path = ContextListener.getAppPath();
+            ServletUtils.uriOffset = (path.length() == 0 || path.equals("/")) ? 0 : path.split("/").length - 1;
         }
     }
 
