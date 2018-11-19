@@ -32,7 +32,7 @@ public class ContextListener implements ServletContextListener {
             Logger.init("logging.properties");
             Logger.log(Level.INFO, "app.path={0}", ContextListener.appPath);
             Logger.log(Level.INFO, "Server starting");
-            if (!DatabaseManager.init(Utils.getConnectionString("db_connection_string")))
+            if (!DatabaseManager.init(Utils.getString("db_connection_string")))
                 throw new IllegalStateException("Database cannot be initialized");
             Logger.log(Level.INFO, "Server started");
         } catch (Exception e) {

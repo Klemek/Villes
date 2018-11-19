@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
 
 public final class TestUtils {
 
-    public static final String DB_CONNECTION_STRING = Utils.getConnectionString("db_test_connection_string");
+    public static final String DB_CONNECTION_STRING = Utils.getString("db_connection_string");
 
     public static final Level LOG_LEVEL = Level.INFO;
     public static boolean loggerInitialized;

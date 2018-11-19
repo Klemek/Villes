@@ -2,14 +2,9 @@ package fr.eseo.villes.utils;
 
 import fr.klemek.logger.Logger;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -60,23 +55,6 @@ public final class Utils {
             Logger.log(Level.SEVERE, "Not integer string at key {0}", key);
             return 0;
         }
-    }
-
-    /**
-     * Get a string from version.
-     *
-     * @param key the key in the config file
-     * @return the string or null if not found
-     */
-    public static String getConnectionString(String key) {
-        String connectionString = Utils.getString(key);
-        if (connectionString == null)
-            return null;
-        String localIP = getLocalIP();
-        if (localIP != null)
-            return connectionString.replace(localIP, "localhost");
-        else
-            return connectionString;
     }
 
     /*
@@ -184,38 +162,5 @@ public final class Utils {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy 'at' HH:mm", Locale.ENGLISH);
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         return formatter.format(cal.getTime());
-    }
-
-    /**
-     * @return the current ip on the first local network
-     */
-    public static String getLocalIP() {
-        if (localIP != null)
-            return localIP;
-        try {
-            InetAddress localhost = InetAddress.getLocalHost();
-            String localIp = localhost.getHostAddress();
-            if (localIp.startsWith("192.168")) {
-                localIP = localIp;
-                return localIP;
-            }
-            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-            while (networkInterfaces.hasMoreElements()) {
-                NetworkInterface itf = networkInterfaces.nextElement();
-                if (itf.isUp() && !itf.isLoopback() && !itf.isVirtual() && !itf.isPointToPoint()) {
-                    Enumeration<InetAddress> adds = itf.getInetAddresses();
-                    while (adds.hasMoreElements()) {
-                        InetAddress add = adds.nextElement();
-                        if (add.isSiteLocalAddress() && add.getHostAddress().startsWith("192.168")) {
-                            localIP = add.getHostAddress();
-                            return localIP;
-                        }
-                    }
-                }
-            }
-        } catch (UnknownHostException | SocketException e) {
-            Logger.log(Level.SEVERE, e.toString(), e);
-        }
-        return localIP;
     }
 }
