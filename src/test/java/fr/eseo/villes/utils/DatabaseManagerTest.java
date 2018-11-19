@@ -1,23 +1,30 @@
 package fr.eseo.villes.utils;
 
 import fr.eseo.villes.TestUtils;
+import fr.eseo.villes.model.City;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class DatabaseManagerTest {
+
+    private City c = new City(78646, "Versailles", 78000, 2.130538595041323, 48.8019453719008);
 
     @Before
     public void setUp() throws Exception {
@@ -61,155 +68,154 @@ public class DatabaseManagerTest {
         DatabaseManager.setDefaultConnectionString(TestUtils.DB_CONNECTION_STRING);
     }
 
-    @Ignore
+
     @Test
     public void testGetFirstFromSessionQueryNamed() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("id", u.getId());
+        c.save();
 
-		Object obj = DatabaseManager.getFirstFromSessionQueryNamed("FROM User WHERE id = :id", params);
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("code", c.getCode());
 
-		assertTrue(obj instanceof User);
-		User u2 = (User) obj;
-		assertEquals(u, u2);*/
+        Object obj = DatabaseManager.getFirstFromSessionQueryNamed("FROM City WHERE code = :code", params);
+
+        assertTrue(obj instanceof City);
+        City c2 = (City) obj;
+        assertEquals(c, c2);
     }
 
-    @Ignore
+
     @Test
     public void testGetFirstFromSessionQuery() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		Object obj = DatabaseManager.getFirstFromSessionQuery("FROM User WHERE id = ?0", u.getId());
+        c.save();
 
-		assertTrue(obj instanceof User);
-		User u2 = (User) obj;
-		assertEquals(u, u2);*/
+        Object obj = DatabaseManager.getFirstFromSessionQuery("FROM City WHERE code = ?", c.getCode());
+
+        assertTrue(obj instanceof City);
+        City c2 = (City) obj;
+        assertEquals(c, c2);
     }
 
-    @Ignore
+
     @Test
     public void testGetFirstFromSessionQueryError() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		Object obj = DatabaseManager.getFirstFromSessionQuery("FROM Userd WHERE id = ?0", u.getId());
+        c.save();
 
-		assertNull(obj);*/
+        Object obj = DatabaseManager.getFirstFromSessionQuery("FROM Cityd WHERE code = ?0", c.getCode());
+
+        assertNull(obj);
     }
 
-    @Ignore
+
     @Test
     public void testGetFirstFromSessionQueryError2() throws SQLException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
         TestUtils.emptyDatabase();
-		
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
-		
-		Field sessionFactory = DatabaseManager.class.getDeclaredField("sessionFactory");
-		SessionFactory tmp = DatabaseManager.getSessionFactory();
-		sessionFactory.setAccessible(true);
-		sessionFactory.set(DatabaseManager.class, null);
 
-		Object obj = DatabaseManager.getFirstFromSessionQuery("FROM User WHERE id = ?0", u.getId());
+        c.save();
 
-		assertNull(obj);
-		
-		sessionFactory.set(DatabaseManager.class, tmp);*/
+        Field sessionFactory = DatabaseManager.class.getDeclaredField("sessionFactory");
+        SessionFactory tmp = DatabaseManager.getSessionFactory();
+        sessionFactory.setAccessible(true);
+        sessionFactory.set(DatabaseManager.class, null);
+
+        Object obj = DatabaseManager.getFirstFromSessionQuery("FROM City WHERE code = ?0", c.getCode());
+
+        assertNull(obj);
+
+        sessionFactory.set(DatabaseManager.class, tmp);
     }
 
-    @Ignore
+
     @Test
     public void testGetFirstFromSessionQueryNoResult() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		Object obj = DatabaseManager.getFirstFromSessionQuery("FROM User WHERE id = ?0", u.getId()+1);
+        c.save();
 
-		assertNull(obj);*/
+        Object obj = DatabaseManager.getFirstFromSessionQuery("FROM City WHERE code = ?0", c.getCode() + 1);
+
+        assertNull(obj);
     }
 
-    @Ignore
+
     @Test
     public void testGetRowsFromSessionQueryNamed() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("id", u.getId());
+        c.save();
 
-		List<Object> lst = DatabaseManager.getRowsFromSessionQueryNamed("FROM User WHERE id = :id", params);
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("code", c.getCode());
 
-		assertEquals(1, lst.size());
-		assertTrue(lst.get(0) instanceof User);
-		User u2 = (User) lst.get(0);
-		assertEquals(u, u2);*/
+        List<Object> lst = DatabaseManager.getRowsFromSessionQueryNamed("FROM City WHERE code = :code", params);
+
+        assertEquals(1, lst.size());
+        assertTrue(lst.get(0) instanceof City);
+        City c2 = (City) lst.get(0);
+        assertEquals(c, c2);
     }
 
-    @Ignore
+
     @Test
     public void testGetRowsFromSessionQuery() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM User WHERE id = ?0", u.getId());
+        c.save();
 
-		assertEquals(1, lst.size());
-		assertTrue(lst.get(0) instanceof User);
-		User u2 = (User) lst.get(0);
-		assertEquals(u, u2);*/
+        List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM City WHERE code = ?", c.getCode());
+
+        assertEquals(1, lst.size());
+        assertTrue(lst.get(0) instanceof City);
+        City c2 = (City) lst.get(0);
+        assertEquals(c, c2);
     }
 
-    @Ignore
+
     @Test
     public void testGetRowsFromSessionQueryError() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM Userd WHERE id = ?0", u.getId());
+        c.save();
 
-		assertEquals(0, lst.size());*/
+        List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM Cityd WHERE code = ?", c.getCode());
+
+        assertEquals(0, lst.size());
     }
 
-    @Ignore
+
     @Test
     public void testGetRowsFromSessionQueryError2() throws SQLException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
-		
-		Field sessionFactory = DatabaseManager.class.getDeclaredField("sessionFactory");
-		SessionFactory tmp = DatabaseManager.getSessionFactory();
-		sessionFactory.setAccessible(true);
-		sessionFactory.set(DatabaseManager.class, null);
+        c.save();
 
-		List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM User WHERE id = ?0", u.getId());
+        Field sessionFactory = DatabaseManager.class.getDeclaredField("sessionFactory");
+        SessionFactory tmp = DatabaseManager.getSessionFactory();
+        sessionFactory.setAccessible(true);
+        sessionFactory.set(DatabaseManager.class, null);
 
-		assertEquals(0, lst.size());
-		
-		sessionFactory.set(DatabaseManager.class, tmp);*/
+        List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM City WHERE code = ?0", c.getCode());
+
+        assertEquals(0, lst.size());
+
+        sessionFactory.set(DatabaseManager.class, tmp);
     }
 
-    @Ignore
+
     @Test
     public void testGetRowsFromSessionQueryNotFound() throws SQLException {
         TestUtils.emptyDatabase();
-		/*User u = new User("test_user", UserType.ADMIN, "test");
-		u.saveOrUpdate();
 
-		List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM User WHERE id = ?0", u.getId()+1);
+        c.save();
 
-		assertEquals(0, lst.size());*/
+
+        List<Object> lst = DatabaseManager.getRowsFromSessionQuery("FROM City WHERE code = ?0", c.getCode() + 1);
+
+        assertEquals(0, lst.size());
     }
 
 }

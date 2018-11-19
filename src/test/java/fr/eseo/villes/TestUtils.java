@@ -172,7 +172,7 @@ public final class TestUtils {
 
     public static void emptyDatabase() throws SQLException {
         try (Statement st = conn.createStatement()) {
-            //st.addBatch("DELETE FROM error_log WHERE 1");
+            st.addBatch("DELETE FROM City WHERE 1");
             st.executeBatch();
         }
     }

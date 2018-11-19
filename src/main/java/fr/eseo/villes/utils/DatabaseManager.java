@@ -1,5 +1,6 @@
 package fr.eseo.villes.utils;
 
+import fr.eseo.villes.model.City;
 import fr.klemek.logger.Logger;
 
 import java.io.InputStream;
@@ -175,6 +176,7 @@ public final class DatabaseManager {
                             connectionString == null ? defaultConnectionString : connectionString)
                     .setProperty("hibernate.connection.username", Utils.getString(DB_USER))
                     .setProperty("hibernate.connection.password", Utils.getString("db_password"))
+                    .addAnnotatedClass(City.class)
                     .buildSessionFactory();
             Logger.setLevel(lvl);
             Logger.log(Level.INFO, "SessionFactory created");

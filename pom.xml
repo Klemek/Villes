@@ -123,13 +123,15 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
-            <resource>
+        </resources>
+        <testResources>
+            <testResource>
                 <directory>src/test/resources</directory>
                 <excludes>
                     <exclude>**/*.java</exclude>
                 </excludes>
-            </resource>
-        </resources>
+            </testResource>
+        </testResources>
         <plugins>
             <!-- Notify plugin/dependecies updates -->
             <plugin>

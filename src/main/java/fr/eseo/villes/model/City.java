@@ -3,49 +3,76 @@ package fr.eseo.villes.model;
 import fr.eseo.villes.utils.DatabaseManager;
 import fr.klemek.logger.Logger;
 
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONObject;
 
-public class Ville {
+@Entity
+@Table(name = "City")
+public class City {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "code")
+    private Integer code;
 
-    @Column(name = "creation_date")
-    private Date creationDate;
+    @Column(name = "name")
+    private String name;
 
-    //TODO
+    @Column(name = "postal_code")
+    private Integer postalCode;
 
-    public Ville() {
+    @Column(name = "geo_lat")
+    private Double geoLat;
+
+    @Column(name = "geo_long")
+    private Double geoLong;
+
+    public City() {
 
     }
 
-    public Integer getId() {
-        return id;
+    public City(Integer code, String name, Integer postalCode, Double geoLat, Double geoLong) {
+        this.code = code;
+        this.name = name;
+        this.postalCode = postalCode;
+        this.geoLat = geoLat;
+        this.geoLong = geoLong;
     }
 
-    Date getCreationDate() {
-        return creationDate;
+    public Integer getCode() {
+        return code;
     }
 
-    /**
-     * Insert a new row or update it if it already exists.
-     *
-     * @return true if operation is successful
-     */
-    public boolean saveOrUpdate() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPostalCode() {
+        return postalCode;
+    }
+
+    public Double getGeoLat() {
+        return geoLat;
+    }
+
+    public Double getGeoLong() {
+        return geoLong;
+    }
+
+    public boolean save() {
         if (!DatabaseManager.isHibernateInitialized()) {
             Logger.log(Level.SEVERE, "Database not initialized, cannot save object");
             return false;
@@ -54,12 +81,27 @@ public class Ville {
         Session session = DatabaseManager.getSessionFactory().getCurrentSession();
         try {
             tx = session.beginTransaction();
-            if (id == null) {
-                id = (Integer) session.save(this);
-                creationDate = new Date();
-            } else {
-                session.update(this);
-            }
+            session.save(this);
+            tx.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            Logger.log(Level.SEVERE, e.toString(), e);
+            return false;
+        }
+    }
+
+    public boolean update() {
+        if (!DatabaseManager.isHibernateInitialized()) {
+            Logger.log(Level.SEVERE, "Database not initialized, cannot save object");
+            return false;
+        }
+        Transaction tx = null;
+        Session session = DatabaseManager.getSessionFactory().getCurrentSession();
+        try {
+            tx = session.beginTransaction();
+            session.update(this);
             tx.commit();
             return true;
         } catch (HibernateException e) {
@@ -80,16 +122,12 @@ public class Ville {
             Logger.log(Level.SEVERE, "Database not initialized, cannot delete object");
             return false;
         }
-        if (id == null)
-            return false;
         Transaction tx = null;
         Session session = DatabaseManager.getSessionFactory().getCurrentSession();
         try {
             tx = session.beginTransaction();
             session.delete(this);
             tx.commit();
-            id = null;
-            creationDate = null;
             return true;
         } catch (HibernateException e) {
             if (tx != null)
@@ -103,7 +141,7 @@ public class Ville {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id);
+        result = prime * result + ((code == null) ? 0 : code);
         return result;
     }
 
@@ -113,64 +151,51 @@ public class Ville {
             return true;
         if (obj == null)
             return false;
-        if (obj instanceof Ville) {
-            Ville other = (Ville) obj;
+        if (obj instanceof City) {
+            City other = (City) obj;
             //Fix hibernate anonymous class
             String thisSimpleName = this.getClass().getSimpleName();
             String objSimpleName = obj.getClass().getSimpleName();
             if (!thisSimpleName.startsWith(objSimpleName) && !objSimpleName.startsWith(thisSimpleName))
                 return false;
-            if (id == null || other.id == null) {
+            if (code == null || other.code == null) {
                 return false;
-            } else return id == (int) other.id;
+            } else return code == (int) other.code;
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return String.format("%s:%d", this.getClass().getSimpleName(), this.getId() == null ? 0 : this.getId());
+        return String.format("%s:%d", this.getClass().getSimpleName(), this.code == null ? 0 : this.code);
     }
 
-    /**
-     * @return a simple representation of this object in JSON
-     */
-    public JSONObject toJSON() {
-        return toJSON(false);
-    }
-
-    /**
-     * @param detailed detailed version
-     * @return a representation of this object in JSON
-     */
-    JSONObject toJSON(boolean detailed) {
+    JSONObject toJSON() {
         JSONObject json = new JSONObject();
-        json.put("id", (id == null) ? JSONObject.NULL : id);
-        if (detailed)
-            json.put("creation_date", creationDate);
+        json.put("code", code);
+        json.put("name", name);
+        json.put("postalCode", postalCode);
+        json.put("geoLat", geoLat);
+        json.put("geoLong", geoLong);
         return json;
     }
 
     /**
      * Return a row by its id.
      *
-     * @param id          the id to find
-     * @param objectClass the class of the object
-     * @param <T>         the class to find
+     * @param code          the id to find
      * @return the object or null if not found
      */
-    public static <T> T findById(int id, Class<T> objectClass) {
-        return DatabaseManager.getFirstFromSessionQuery("FROM " + objectClass.getSimpleName() + " WHERE id = ?0", id);
+    public static City findByCode(int code) {
+        return DatabaseManager.getFirstFromSessionQuery("FROM City WHERE code = ?0", code);
     }
 
     /**
      * Return all rows from table.
      *
-     * @param <T>         the class to find
-     * @param objectClass the class of the object
      * @return all the rows from the database
      */
-    static <T> List<T> getAll(Class<T> objectClass) {
-        return DatabaseManager.getRowsFromSessionQuery("FROM " + objectClass.getSimpleName());
+    static List<City> getAll() {
+        return DatabaseManager.getRowsFromSessionQuery("FROM City");
     }
 }
