@@ -1,13 +1,18 @@
 package fr.eseo.villes;
 
+import fr.eseo.villes.utils.DatabaseManager;
+import fr.eseo.villes.utils.Utils;
 import fr.klemek.logger.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-import java.util.AbstractMap;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,17 +27,22 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.mockito.Mockito;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public final class TestUtils {
 
+    public static final String DB_CONNECTION_STRING = Utils.getConnectionString("db_test_connection_string");
+
     public static final Level LOG_LEVEL = Level.INFO;
-    public static final String ADMIN_EMAIL = "adminemail";
-    public static final Map.Entry<String, String> langEntry = new AbstractMap.SimpleEntry<>("testKey", "testValue");
     public static boolean loggerInitialized;
     public static boolean initContextInitialized;
+
+
+    private static Connection conn = null;
 
     private TestUtils() {
 
@@ -113,6 +123,10 @@ public final class TestUtils {
     }
 
     public static boolean prepareTestClass() {
+        return TestUtils.prepareTestClass(false);
+    }
+
+    public static boolean prepareTestClass(boolean emptyDatabase) {
         if (!TestUtils.loggerInitialized) {
             Logger.init("logging.properties", TestUtils.LOG_LEVEL);
             TestUtils.loggerInitialized = true;
@@ -131,6 +145,39 @@ public final class TestUtils {
             Logger.log(Level.INFO, "App path initialized");
             TestUtils.initContextInitialized = true;
         }
+        try {
+            if (conn == null) {
+                Logger.init("logging.properties", LOG_LEVEL);
+                assertTrue(DatabaseManager.init(TestUtils.DB_CONNECTION_STRING));
+                conn = DatabaseManager.openConnection();
+            }
+            if (emptyDatabase)
+                TestUtils.emptyDatabase();
+        } catch (SQLException e) {
+            Logger.log(e);
+            fail();
+        }
         return true;
+    }
+
+    public static void cleanDatabase(Connection conn) throws SQLException, IOException {
+        try (InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("sql/clean.sql")) {
+            if (is != null)
+                DatabaseManager.importSQL(conn, is);
+            else
+                fail("Unable to find SQL cleaning file");
+        }
+
+    }
+
+    public static void emptyDatabase() throws SQLException {
+        try (Statement st = conn.createStatement()) {
+            //st.addBatch("DELETE FROM error_log WHERE 1");
+            st.executeBatch();
+        }
+    }
+
+    public static Connection getConnection() {
+        return conn;
     }
 }

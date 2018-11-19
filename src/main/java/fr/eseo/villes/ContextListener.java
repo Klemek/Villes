@@ -1,5 +1,7 @@
 package fr.eseo.villes;
 
+import fr.eseo.villes.utils.DatabaseManager;
+import fr.eseo.villes.utils.Utils;
 import fr.klemek.logger.Logger;
 
 import java.util.logging.Level;
@@ -29,6 +31,9 @@ public class ContextListener implements ServletContextListener {
             ContextListener.loadParameters(sce);
             Logger.init("logging.properties");
             Logger.log(Level.INFO, "app.path={0}", ContextListener.appPath);
+            Logger.log(Level.INFO, "Server starting");
+            if (!DatabaseManager.init(Utils.getConnectionString("db_connection_string")))
+                throw new IllegalStateException("Database cannot be initialized");
             Logger.log(Level.INFO, "Server started");
         } catch (Exception e) {
             throw new IllegalStateException("There was an error during initialization", e);
