@@ -46,6 +46,8 @@ public class ApiServletTest {
 
         assertTrue(res.getJSONObject("value").has("db_version"));
         assertTrue(res.getJSONObject("value").has("db_last_update"));
+        assertTrue(res.getJSONObject("value").has("cities_loaded"));
+        assertTrue(res.getJSONObject("value").has("cities_count"));
     }
 
 }

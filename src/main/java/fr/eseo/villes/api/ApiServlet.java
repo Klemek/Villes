@@ -1,5 +1,6 @@
 package fr.eseo.villes.api;
 
+import fr.eseo.villes.model.City;
 import fr.eseo.villes.utils.DatabaseManager;
 import fr.eseo.villes.utils.ServletUtils;
 import fr.klemek.logger.Logger;
@@ -64,6 +65,8 @@ public class ApiServlet extends HttpServlet {
         }
         result.put("db_version", dbUpdate == null ? "unkown" : dbVersion);
         result.put("db_last_update", dbUpdate == null ? "unkown" : dbUpdate);
+        result.put("cities_count", City.getAll().size());
+        result.put("cities_loaded", DatabaseManager.areCitiesLoaded());
 
         ServletUtils.sendJsonResponse(response, result);
     }
