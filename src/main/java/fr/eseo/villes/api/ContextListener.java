@@ -38,6 +38,7 @@ public class ContextListener implements ServletContextListener {
             CityManager.loadCities();
             Logger.log(Level.INFO, "Server started");
         } catch (Exception e) {
+            Logger.log(e);
             throw new IllegalStateException("There was an error during initialization", e);
         }
     }
