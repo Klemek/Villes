@@ -29,7 +29,7 @@ public class ApiServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    ApiServlet() {
+    public ApiServlet() {
         super();
     }
 
