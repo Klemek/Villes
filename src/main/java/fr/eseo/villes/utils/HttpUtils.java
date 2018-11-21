@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -337,6 +338,18 @@ public final class HttpUtils {
                     json = new JSONObject();
                 }
             return json;
+        }
+
+        /**
+         * @return the result of the request parsed as JSON array
+         */
+        public JSONArray getJSONArray() {
+            try {
+                return new JSONArray(result);
+            } catch (JSONException e) {
+                Logger.log(Level.WARNING, "Cannot parse JSON : {0}", result);
+                return new JSONArray();
+            }
         }
 
         /**

@@ -22,13 +22,13 @@ public class City {
 
     @Id
     @Column(name = "code")
-    private Integer code;
+    private int code;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "postal_code")
-    private Integer postalCode;
+    @Column(name = "postal_codes")
+    private String postalCodes;
 
     @Column(name = "geo_lat")
     private Double geoLat;
@@ -40,15 +40,15 @@ public class City {
 
     }
 
-    public City(Integer code, String name, Integer postalCode, Double geoLat, Double geoLong) {
+    public City(int code, String name, String postalCodes, Double geoLat, Double geoLong) {
         this.code = code;
         this.name = name;
-        this.postalCode = postalCode;
+        this.postalCodes = postalCodes;
         this.geoLat = geoLat;
         this.geoLong = geoLong;
     }
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -60,8 +60,8 @@ public class City {
         this.name = name;
     }
 
-    public Integer getPostalCode() {
-        return postalCode;
+    public String getPostalCodes() {
+        return postalCodes;
     }
 
     public Double getGeoLat() {
@@ -141,7 +141,7 @@ public class City {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((code == null) ? 0 : code);
+        result = prime * result + code;
         return result;
     }
 
@@ -158,7 +158,7 @@ public class City {
             String objSimpleName = obj.getClass().getSimpleName();
             if (!thisSimpleName.startsWith(objSimpleName) && !objSimpleName.startsWith(thisSimpleName))
                 return false;
-            if (code == null || other.code == null) {
+            if (code == 0 || other.code == 0) {
                 return false;
             } else return code == (int) other.code;
         }
@@ -167,14 +167,14 @@ public class City {
 
     @Override
     public String toString() {
-        return String.format("%s:%d", this.getClass().getSimpleName(), this.code == null ? 0 : this.code);
+        return String.format("%s:%d", this.getClass().getSimpleName(), this.code);
     }
 
     JSONObject toJSON() {
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("name", name);
-        json.put("postalCode", postalCode);
+        json.put("postalCodes", postalCodes);
         json.put("geoLat", geoLat);
         json.put("geoLong", geoLong);
         return json;
@@ -195,7 +195,7 @@ public class City {
      *
      * @return all the rows from the database
      */
-    static List<City> getAll() {
+    public static List<City> getAll() {
         return DatabaseManager.getRowsFromSessionQuery("FROM City");
     }
 }

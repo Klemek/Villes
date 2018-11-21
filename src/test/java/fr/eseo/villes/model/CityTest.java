@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 public class CityTest {
 
-    private City c = new City(78646, "Versailles", 78000, 2.130538595041323, 48.8019453719008);
+    private City c = new City(78646, "Versailles", "78000", 2.130538595041323, 48.8019453719008);
 
     @Before
     public void setUp() {
@@ -27,8 +27,8 @@ public class CityTest {
         c.save();
         try (ResultSet rs = TestUtils.getConnection().createStatement().executeQuery("SELECT * FROM City WHERE 1")) {
             assertTrue(rs.first());
-            assertEquals(c.getCode(), (Integer) rs.getInt("code"));
-            assertEquals(c.getPostalCode(), (Integer) rs.getInt("postal_code"));
+            assertEquals(c.getCode(), rs.getInt("code"));
+            assertEquals(c.getPostalCodes(), rs.getString("postal_codes"));
             assertEquals(c.getName(), rs.getString("name"));
             assertEquals(c.getGeoLat(), rs.getDouble("geo_lat"), 0.001d);
             assertEquals(c.getGeoLong(), rs.getDouble("geo_long"), 0.001d);

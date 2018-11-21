@@ -175,6 +175,7 @@ public final class TestUtils {
             st.addBatch("DELETE FROM City WHERE 1");
             st.executeBatch();
         }
+        DatabaseManager.setCitiesLoaded(false);
     }
 
     public static Connection getConnection() {

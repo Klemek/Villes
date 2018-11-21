@@ -38,6 +38,7 @@ public final class DatabaseManager {
     private static String defaultConnectionString = null;
     private static SessionFactory sessionFactory;
     private static boolean databaseUpToDate = false;
+    private static boolean citiesLoaded = false;
 
     private DatabaseManager() {
     }
@@ -391,6 +392,22 @@ public final class DatabaseManager {
         }
     }
 
+    public static boolean areCitiesLoaded() {
+        return citiesLoaded;
+    }
+
+    public static void setCitiesLoaded(boolean loaded) {
+        try (Connection conn = openConnection()) {
+            try (PreparedStatement st = conn.prepareStatement("UPDATE db_info SET cities_loaded=? WHERE 1")) {
+                st.setInt(1, loaded ? 1 : 0);
+                st.executeUpdate();
+                citiesLoaded = loaded;
+            }
+        } catch (SQLException e) {
+            Logger.log(Level.SEVERE, e.toString(), e);
+        }
+    }
+
     /**
      * Update the database.
      *
@@ -423,6 +440,7 @@ public final class DatabaseManager {
                         } else {
                             currentVersion = rs.getInt("version");
                             Date lastUpdate = rs.getTimestamp("update_date");
+                            citiesLoaded = rs.getInt("cities_loaded") != 0;
                             Logger.log(Level.INFO, "Database v{0} last updated : {1}", currentVersion, lastUpdate);
                         }
                     }

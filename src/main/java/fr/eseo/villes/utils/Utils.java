@@ -3,6 +3,7 @@ package fr.eseo.villes.utils;
 import fr.klemek.logger.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.logging.Level;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * Utility class that store useful misc functions.
@@ -75,6 +79,22 @@ public final class Utils {
         }
     }
 
+    /**
+     * Transform a JSONArray into a List of wanted class.
+     *
+     * @param src the source JSONArray
+     * @return a list
+     */
+    public static <T> List<T> jarrayToList(JSONArray src) {
+        List<T> lst = new ArrayList<>(src.length());
+        try {
+            for (int i = 0; i < src.length(); i++)
+                lst.add((T) src.get(i));
+        } catch (ClassCastException | NullPointerException e) {
+            throw new JSONException("Cannot cast class", e);
+        }
+        return lst;
+    }
 
     /**
      * Return the class name from the calling class in th stack trace.

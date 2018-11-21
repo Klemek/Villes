@@ -24,7 +24,7 @@ import static org.junit.Assert.fail;
 
 public class DatabaseManagerTest {
 
-    private City c = new City(78646, "Versailles", 78000, 2.130538595041323, 48.8019453719008);
+    private City c = new City(78646, "Versailles", "78000", 2.130538595041323, 48.8019453719008);
 
     @Before
     public void setUp() throws Exception {
@@ -218,4 +218,11 @@ public class DatabaseManagerTest {
         assertEquals(0, lst.size());
     }
 
+    @Test
+    public void testAreCitiesLoaded() throws SQLException {
+        TestUtils.emptyDatabase();
+        assertFalse(DatabaseManager.areCitiesLoaded());
+        DatabaseManager.setCitiesLoaded(true);
+        assertTrue(DatabaseManager.areCitiesLoaded());
+    }
 }
