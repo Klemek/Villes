@@ -1,5 +1,6 @@
 package fr.eseo.villes.api;
 
+import fr.eseo.villes.utils.CityManager;
 import fr.eseo.villes.utils.DatabaseManager;
 import fr.eseo.villes.utils.Utils;
 
@@ -20,13 +21,15 @@ import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({"java.*", "javax.*", "org.*"})
-@PrepareForTest({DatabaseManager.class, Utils.class})
+@PrepareForTest({DatabaseManager.class, CityManager.class, Utils.class})
 public class ContextListenerTest {
 
     @Test
     public void testContextInitializedSuccess() {
         PowerMockito.mockStatic(DatabaseManager.class);
         when(DatabaseManager.init(any())).thenReturn(true);
+
+        PowerMockito.mockStatic(CityManager.class);
 
         ServletContext sc = Mockito.mock(ServletContext.class);
 
@@ -49,6 +52,8 @@ public class ContextListenerTest {
     public void testContextInitializedDBError() {
         PowerMockito.mockStatic(DatabaseManager.class);
         when(DatabaseManager.init(any())).thenReturn(false);
+
+        PowerMockito.mockStatic(CityManager.class);
 
         try {
             new ContextListener().contextInitialized(null);
