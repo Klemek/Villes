@@ -1,6 +1,6 @@
 package fr.eseo.villes.utils;
 
-import fr.eseo.villes.ContextListener;
+import fr.eseo.villes.api.ContextListener;
 import fr.klemek.logger.Logger;
 
 import java.io.BufferedReader;

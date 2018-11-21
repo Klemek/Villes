@@ -134,7 +134,7 @@ public final class TestUtils {
 
         if (!TestUtils.initContextInitialized) {
             try {
-                Class<?> initContextListener = Class.forName("fr.eseo.villes.ContextListener");
+                Class<?> initContextListener = Class.forName("fr.eseo.villes.api.ContextListener");
                 Field appPath = initContextListener.getDeclaredField("appPath");
                 appPath.setAccessible(true);
                 appPath.set(initContextListener, "/");

@@ -1,4 +1,4 @@
-package fr.eseo.villes;
+package fr.eseo.villes.api;
 
 import fr.eseo.villes.utils.DatabaseManager;
 import fr.eseo.villes.utils.Utils;
