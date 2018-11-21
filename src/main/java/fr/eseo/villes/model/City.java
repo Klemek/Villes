@@ -170,7 +170,7 @@ public class City {
         return String.format("%s:%d", this.getClass().getSimpleName(), this.code);
     }
 
-    JSONObject toJSON() {
+    public JSONObject toJSON() {
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("name", name);
@@ -188,6 +188,10 @@ public class City {
      */
     public static City findByCode(int code) {
         return DatabaseManager.getFirstFromSessionQuery("FROM City WHERE code = ?0", code);
+    }
+
+    public static List<City> search(String query) {
+        return DatabaseManager.getRowsFromSessionQuery("FROM City WHERE LOWER(name) LIKE ?0 OR postalCodes LIKE ?0", "%" + query.toLowerCase() + "%");
     }
 
     /**

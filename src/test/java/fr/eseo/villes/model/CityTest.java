@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 public class CityTest {
 
-    private City c = new City(78646, "Versailles", "78000", 2.130538595041323, 48.8019453719008);
+    private City c = new City(78646, "Versailles", "78000,78100", 2.130538595041323, 48.8019453719008);
 
     @Before
     public void setUp() {
@@ -75,5 +75,19 @@ public class CityTest {
 
         assertEquals(1, lst.size());
         assertEquals(c, lst.get(0));
+    }
+
+    @Test
+    public void testSearch() {
+        c.save();
+
+        List<City> lst = City.search("unkown");
+        assertEquals(0, lst.size());
+
+        lst = City.search("veRS");
+        assertEquals(1, lst.size());
+
+        lst = City.search("780");
+        assertEquals(1, lst.size());
     }
 }
