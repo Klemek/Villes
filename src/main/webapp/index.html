@@ -1,1 +1,51 @@
-<h1>It works !</h1>
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Villes</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<!--Make sure the form has the autocomplete function switched off:-->
+<!--<form autocomplete="off" action="/action_page.php">
+    <div class="autocomplete" style="width:300px;">
+        <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    </div>
+    <input type="submit">
+</form>-->
+
+<img id="map-image" src="img/map.jpg" style="display:none">
+
+<div id="app">
+    <div v-for="city,i in cities">
+        <form autocomplete="off">
+            <div class="autocomplete" v-bind:style="{width:city.current !== undefined ? '248px' : '330px'}">
+                <input type="text"
+                       v-on:keydown="keydown(i,$event)"
+                       v-on:input="input(i)"
+                       v-on:blur="blur(i)"
+                       v-on:click="city.show = true;"
+                       v-model="city.value"
+                       v-bind:placeholder="'Ville '+(i+1)">
+                <div v-if="city.show" class="autocomplete-items">
+                    <div v-for="hint,j in city.hints"
+                         v-html="match(hint.text, city.value)"
+                         v-on:click="select(i,j)"
+                         v-bind:class="{'autocomplete-active':(j==city.selected)}"></div>
+                </div>
+            </div>
+            <input type="submit" value="Effacer"
+                   v-if="city.current !== undefined"
+                   v-on:click="clear(i);city.value='';" style="width:80px;"/>
+        </form>
+    </div>
+    <canvas id="map" width="500" height="480"></canvas>
+    <h1 v-if="dist > 0">~{{dist}} km</h1>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
