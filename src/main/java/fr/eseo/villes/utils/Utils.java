@@ -23,8 +23,6 @@ public final class Utils {
 
     private static final ResourceBundle RELEASE_BUNDLE = ResourceBundle.getBundle("release");
 
-    private static String localIP = null;
-
     private Utils() {
     }
 

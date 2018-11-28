@@ -39,7 +39,7 @@ public class CityManager {
         ArrayList<Integer> regions = new ArrayList<>();
         HttpUtils.HttpResult hr = HttpUtils.executeRequest("GET", "https://geo.api.gouv.fr/regions");
         if (hr.code != 200) {
-            Logger.log("Error {0} in request", hr.code);
+            Logger.log("Error {0} in regions request", hr.code);
             return regions;
         }
         try {
@@ -62,7 +62,7 @@ public class CityManager {
         String url = String.format("https://geo.api.gouv.fr/regions/%02d/departements", rcode);
         HttpUtils.HttpResult hr = HttpUtils.executeRequest("GET", url);
         if (hr.code != 200) {
-            Logger.log("Error {0} in request", hr.code);
+            Logger.log("Error {0} in region request", hr.code);
             return departments;
         }
         try {
@@ -82,7 +82,7 @@ public class CityManager {
         String url = String.format("https://geo.api.gouv.fr/departements/%02d/communes?format=geojson", dcode);
         HttpUtils.HttpResult hr = HttpUtils.executeRequest("GET", url);
         if (hr.code != 200) {
-            Logger.log("Error {0} in request", hr.code);
+            Logger.log("Error {0} in department request", hr.code);
             return false;
         }
 

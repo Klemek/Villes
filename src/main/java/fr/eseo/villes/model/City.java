@@ -160,7 +160,7 @@ public class City {
                 return false;
             if (code == 0 || other.code == 0) {
                 return false;
-            } else return code == (int) other.code;
+            } else return code == other.code;
         }
         return false;
     }

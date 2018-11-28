@@ -52,6 +52,10 @@ input[type=submit] {
     border-bottom: 1px solid #BDBDBD;
 }
 
+.autocomplete-active small {
+    color: #EEEEEE !important;
+}
+
 .autocomplete-items div small {
     color:#757575;
 }
@@ -64,10 +68,6 @@ input[type=submit] {
     /*when navigating through the items using the arrow keys:*/
     background-color: #03A9F4 !important;
     color: #ffffff;
-}
-
-.autocomplete-active small {
-    color: #EEEEEE !important;
 }
 
 #map {
