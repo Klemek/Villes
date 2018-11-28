@@ -1,8 +1,8 @@
-package fr.eseo.villes;
+package fr.klemek.villes;
 
-import fr.eseo.villes.utils.DatabaseManager;
-import fr.eseo.villes.utils.Utils;
 import fr.klemek.logger.Logger;
+import fr.klemek.villes.utils.DatabaseManager;
+import fr.klemek.villes.utils.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -134,7 +134,7 @@ public final class TestUtils {
 
         if (!TestUtils.initContextInitialized) {
             try {
-                Class<?> initContextListener = Class.forName("fr.eseo.villes.api.ContextListener");
+                Class<?> initContextListener = Class.forName("fr.klemek.villes.api.ContextListener");
                 Field appPath = initContextListener.getDeclaredField("appPath");
                 appPath.setAccessible(true);
                 appPath.set(initContextListener, "/");

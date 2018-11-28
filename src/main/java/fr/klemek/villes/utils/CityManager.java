@@ -1,7 +1,7 @@
-package fr.eseo.villes.utils;
+package fr.klemek.villes.utils;
 
-import fr.eseo.villes.model.City;
 import fr.klemek.logger.Logger;
+import fr.klemek.villes.model.City;
 
 import java.util.ArrayList;
 import java.util.List;

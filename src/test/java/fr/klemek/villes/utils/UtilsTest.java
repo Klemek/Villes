@@ -1,6 +1,6 @@
-package fr.eseo.villes.utils;
+package fr.klemek.villes.utils;
 
-import fr.eseo.villes.TestUtils;
+import fr.klemek.villes.TestUtils;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

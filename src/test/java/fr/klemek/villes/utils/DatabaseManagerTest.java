@@ -1,7 +1,7 @@
-package fr.eseo.villes.utils;
+package fr.klemek.villes.utils;
 
-import fr.eseo.villes.TestUtils;
-import fr.eseo.villes.model.City;
+import fr.klemek.villes.TestUtils;
+import fr.klemek.villes.model.City;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

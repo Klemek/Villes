@@ -1,6 +1,6 @@
-package fr.eseo.villes.model;
+package fr.klemek.villes.model;
 
-import fr.eseo.villes.TestUtils;
+import fr.klemek.villes.TestUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

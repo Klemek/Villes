@@ -1,14 +1,14 @@
-package fr.eseo.villes;
+package fr.klemek.villes;
 
-import fr.eseo.villes.api.ApiServletTest;
-import fr.eseo.villes.api.ContextListenerTest;
-import fr.eseo.villes.model.CityTest;
-import fr.eseo.villes.utils.CityManagerTest;
-import fr.eseo.villes.utils.DatabaseManagerErrorsTest;
-import fr.eseo.villes.utils.DatabaseManagerTest;
-import fr.eseo.villes.utils.HttpUtilsTest;
-import fr.eseo.villes.utils.ServletUtilsTest;
-import fr.eseo.villes.utils.UtilsTest;
+import fr.klemek.villes.api.ApiServletTest;
+import fr.klemek.villes.api.ContextListenerTest;
+import fr.klemek.villes.model.CityTest;
+import fr.klemek.villes.utils.CityManagerTest;
+import fr.klemek.villes.utils.DatabaseManagerErrorsTest;
+import fr.klemek.villes.utils.DatabaseManagerTest;
+import fr.klemek.villes.utils.HttpUtilsTest;
+import fr.klemek.villes.utils.ServletUtilsTest;
+import fr.klemek.villes.utils.UtilsTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

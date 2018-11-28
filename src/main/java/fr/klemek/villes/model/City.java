@@ -1,7 +1,7 @@
-package fr.eseo.villes.model;
+package fr.klemek.villes.model;
 
-import fr.eseo.villes.utils.DatabaseManager;
 import fr.klemek.logger.Logger;
+import fr.klemek.villes.utils.DatabaseManager;
 
 import java.util.List;
 import java.util.logging.Level;

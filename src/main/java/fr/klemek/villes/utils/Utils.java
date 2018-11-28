@@ -1,4 +1,4 @@
-package fr.eseo.villes.utils;
+package fr.klemek.villes.utils;
 
 import fr.klemek.logger.Logger;
 

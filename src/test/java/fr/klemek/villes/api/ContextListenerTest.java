@@ -1,8 +1,8 @@
-package fr.eseo.villes.api;
+package fr.klemek.villes.api;
 
-import fr.eseo.villes.utils.CityManager;
-import fr.eseo.villes.utils.DatabaseManager;
-import fr.eseo.villes.utils.Utils;
+import fr.klemek.villes.utils.CityManager;
+import fr.klemek.villes.utils.DatabaseManager;
+import fr.klemek.villes.utils.Utils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

@@ -1,10 +1,10 @@
-package fr.eseo.villes.api;
+package fr.klemek.villes.api;
 
-import fr.eseo.villes.model.City;
-import fr.eseo.villes.utils.DatabaseManager;
-import fr.eseo.villes.utils.ServletUtils;
 import fr.klemek.betterlists.BetterArrayList;
 import fr.klemek.logger.Logger;
+import fr.klemek.villes.model.City;
+import fr.klemek.villes.utils.DatabaseManager;
+import fr.klemek.villes.utils.ServletUtils;
 
 import java.io.IOException;
 import java.sql.Connection;

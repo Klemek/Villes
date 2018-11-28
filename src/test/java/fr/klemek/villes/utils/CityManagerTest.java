@@ -1,7 +1,7 @@
-package fr.eseo.villes.utils;
+package fr.klemek.villes.utils;
 
-import fr.eseo.villes.TestUtils;
-import fr.eseo.villes.model.City;
+import fr.klemek.villes.TestUtils;
+import fr.klemek.villes.model.City;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({"java.*", "javax.*", "org.*",
-        "fr.eseo.villes.model.*", "fr.eseo.villes.utils.DatabaseManager", "fr.eseo.villes.utils.Utils"})
+        "fr.klemek.villes.model.*", "DatabaseManager", "Utils"})
 @PrepareForTest({HttpUtils.class})
 public class CityManagerTest {
 

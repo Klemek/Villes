@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.eseo</groupId>
+    <groupId>fr.klemek</groupId>
     <artifactId>villes</artifactId>
     <version>1.0</version>
     <name>Villes</name>
@@ -164,7 +164,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
                 <configuration>
-                    <test>fr.eseo.villes.AllTests</test>
+                    <test>AllTests</test>
                 </configuration>
             </plugin>
             <!-- JS & CSS minify-->

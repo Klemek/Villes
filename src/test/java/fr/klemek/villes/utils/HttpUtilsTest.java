@@ -1,8 +1,8 @@
-package fr.eseo.villes.utils;
+package fr.klemek.villes.utils;
 
-import fr.eseo.villes.TestUtils;
-import fr.eseo.villes.utils.HttpUtils.HttpResult;
 import fr.klemek.logger.Logger;
+import fr.klemek.villes.TestUtils;
+import fr.klemek.villes.utils.HttpUtils.HttpResult;
 
 import java.io.File;
 import java.io.FileWriter;

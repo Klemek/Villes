@@ -1,4 +1,4 @@
 /**
  * Static utilitary functions.
  */
-package fr.eseo.villes.utils;
+package fr.klemek.villes.utils;
