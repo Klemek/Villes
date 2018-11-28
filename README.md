@@ -1,4 +1,5 @@
 # Villes
+J2EE app to calculate distance between 2 french cities
 
 ![preview.gif](preview.gif)
 
