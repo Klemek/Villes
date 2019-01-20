@@ -142,10 +142,7 @@ public final class DatabaseManager {
         String userName = Utils.getString(superuser ? "db_super_user" : DB_USER);
         String password = Utils.getString(superuser ? "db_super_password" : "db_password");
         String url = connectionString == null ? defaultConnectionString : connectionString;
-        if (password == null || password.length() == 0)
-            return DriverManager.getConnection(url, userName, null);
-        else
-            return DriverManager.getConnection(url, userName, password);
+        return DriverManager.getConnection(url, userName, password);
     }
 
     /**
