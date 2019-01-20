@@ -5,6 +5,7 @@ before_install:
   - mysql -e 'CREATE DATABASE myapp_test;'
 before_script:
   - mv src/test/resources/travis.properties src/test/resources/release.properties
+  - cat src/test/resources/release.properties
 script:
   - mvn test jacoco:report
 after_success:
