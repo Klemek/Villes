@@ -1,7 +1,10 @@
-# Villes
-
 [![Build Status](https://img.shields.io/travis/Klemek/Villes.svg?style=popout)](https://travis-ci.org/Klemek/Villes)
 [![Coverage Status](https://img.shields.io/coveralls/github/Klemek/Villes.svg)](https://coveralls.io/github/Klemek/Villes?branch=master)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Klemek/Villes.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Klemek/Villes/context:java)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Klemek/Villes.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Klemek/Villes/context:javascript)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Klemek/Villes.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Klemek/Villes/alerts/)
+
+# Villes
 
 J2EE app to calculate distance between 2 french cities
 
